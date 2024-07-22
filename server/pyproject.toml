@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "data-mind-server"
+version = "0.1.0"
+description = "Server side part of the pet project to learn FastAPI"
+authors = ["Denys Zaluzhnyi <denys.zaluzhnyi@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.111.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
