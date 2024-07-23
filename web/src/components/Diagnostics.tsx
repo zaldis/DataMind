@@ -106,15 +106,13 @@ export default function Diagnostics() {
                 </button>
             </div>
 
-            <div className="panel-table">
-                <div className="panel-table__headers">
+            <div className="panel">
+                <div className="panel__tabel-header">
                     <div>Diagnostic date</div>
                     <div>Fault type</div>
                     <div>Severity</div>
                 </div>
-                <div className="panel-table__items">
-                    { diagnosticItems }
-                </div>
+                { diagnosticItems }
             </div>
         </>
     );
@@ -126,7 +124,7 @@ function DiagnosticItem({createdDate, faultType, severity}) {
     const formattedMonth = (createdDate.getMonth() + 1).toString().padStart(2, "0");
     const formattedDate = `${formattedDay}.${formattedMonth}.${createdDate.getFullYear()}`;
     return (
-        <div className="diagnostic-item">
+        <div className="panel__table-item">
             <div>{formattedDate}</div>
             <div>{faultType}</div>
             <div>{severity}</div>

@@ -21,9 +21,8 @@ export async function login(username: string, password: string): Promise<string>
 
 
 export async function getInsights(startDate: Date): Promise<object> {
-    console.log("Fetch new insights");
     const url = new URL(`${domain}/insight`);
-    url.search = new URLSearchParams({ from_date: "2022-07-22T07:34:02.411Z" }).toString();
+    url.search = new URLSearchParams({ from_date: "1999-07-22T07:34:02.411Z" }).toString();
     const response = await fetch(url, {
         method: "GET",
         headers: {

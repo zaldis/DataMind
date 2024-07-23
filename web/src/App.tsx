@@ -13,6 +13,7 @@ import bellIcon from "./assets/bell.svg";
 import fileIcon from "./assets/file.svg";
 import gearIcon from "./assets/gear.svg";
 import arrowRightFromBracket from "./assets/arrow-right-from-bracket.svg";
+import InsightsGraph from "./components/InsightsGraph.tsx";
 
 
 function App() {
@@ -77,7 +78,13 @@ function App() {
 
     let content = <Login onSuccessLogin={handleOnSuccessLogin} />;
     if (userData.token) {
-        content = <Diagnostics />
+        content = (
+            <>
+                <InsightsGraph />
+                <br />
+                <Diagnostics />
+            </>
+        )
     }
 
     return (

@@ -47,7 +47,7 @@ h2 {
 
 .menu {
     width: 84px;
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -196,23 +196,28 @@ h2 {
 }
 
 
-.panel-table {
+.panel {
     background-color: #e6e8ec;
     padding: 10px;
     border-radius: 10px;
 }
 
-.panel-table__headers {
+.panel__tabel-header {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
     margin-left: 20px
 }
-.panel-table__headers div {
+.panel__tabel-header div {
     flex: 1;
 }
+.panel__space-between-header {
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
 
-.diagnostic-item {
+.panel__table-item {
     display: flex;
     background-color: white;
     height: 56px;
@@ -220,7 +225,7 @@ h2 {
     margin-bottom: 10px;
     border-radius: 10px;
 }
-.diagnostic-item div {
+.panel__table-item div {
     flex: 1;
 }
 
