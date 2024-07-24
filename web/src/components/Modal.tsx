@@ -1,6 +1,3 @@
-import {useState} from "react";
-
-
 export default function Modal({ header, content, isActive= false }) {
     const modalCSS = `modal ${isActive ? "modal-active" : ""}`;
 

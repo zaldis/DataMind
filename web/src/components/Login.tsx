@@ -1,11 +1,9 @@
 import { useRef } from "react";
 
+import Form from "./Form";
+
 import { login } from "../client";
 
-/* TODO
-*
-*  It had better to think about custom component for the html forms.
-* */
 
 export default function Login({ onSuccessLogin }) {
     const user = useRef();
@@ -21,24 +19,22 @@ export default function Login({ onSuccessLogin }) {
     }
 
     return (
-        <form>
-            <div className="form-inputs form-inputs__purple form-inputs__limited">
-                <div className="form-control form-control__dark">
-                    <label htmlFor="user">User</label>
-                    <input id="user" type="text" name="username" ref={user} />
-                </div>
-
-                <div className="form-control form-control__dark">
-                    <label htmlFor="password">Password</label>
-                    <input id="password" type="password" name="password" ref={password} />
-                </div>
-
-                <p className="form-actions">
-                    <button type="button" className="button" onClick={handleFormSubmit}>
-                        Login
-                    </button>
-                </p>
-            </div>
-        </form>
-    )
+        <Form
+            formStyle="dark"
+            fields={[
+                {
+                    label: 'User',
+                    id: 'user',
+                    htmlElement: <input id="user" type="text" name="username" ref={user}/>
+                }, {
+                    label: 'password',
+                    id: 'password',
+                    htmlElement: <input id="password" type="password" name="password" ref={password}/>
+                }
+            ]}
+            actions={[
+                <button type="button" className="button" onClick={handleFormSubmit} key="login">Login </button>
+            ]}
+        />
+    );
 }

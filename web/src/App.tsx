@@ -21,7 +21,6 @@ function App() {
 
     useEffect(() => {
         const savedUsername = localStorage.getItem('username') || '';
-
         if (!username) {
             handleOnSuccessLogin(savedUsername);
         }
@@ -41,7 +40,11 @@ function App() {
     const lastName = username.split('.')[1] || '';
 
     let menu = undefined;
-    let content = <Login onSuccessLogin={handleOnSuccessLogin} />;
+    let content = (
+        <div style={{ width: "30rem", margin: "auto" }}>
+            <Login onSuccessLogin={handleOnSuccessLogin} />
+        </div>
+    );
     if (username) {
         menu = (
             <HorizontalMenu

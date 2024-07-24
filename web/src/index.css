@@ -100,21 +100,21 @@ h2 {
 }
 
 
-.form-inputs {
-    width: 100%;
-    padding: 2rem;
-    margin: 0 auto;
-    border-radius: 0.5rem;
+.form {
+    border-radius: 10px;
 }
 
-.form-inputs__purple {
+.form__dark {
     background: linear-gradient(180deg, #5d5db0 0%, #2f2f66 100%);
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     color: white;
 }
 
-.form-inputs__limited {
-    max-width: 28rem;
+.form-inputs {
+    width: 100%;
+    padding: 2rem;
+    margin: 0 auto;
+    border-radius: 0.5rem;
 }
 
 .form-control {
@@ -142,32 +142,30 @@ h2 {
     color: #c2d6ff;
 }
 
-.form-control__dark input, .form-control__dark select {
+.form-control input, .form-control select {
     width: 100%;
     padding: 0.75rem 1rem;
     line-height: 1.5;
-    background-color: #d1d5db;
     color: #374151;
-    border: 1px solid transparent;
     border-radius: 0.25rem;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
+.form-control__dark input, .form-control__dark select {
+    background-color: #d1d5db;
+    border: 1px solid transparent;
+}
+
 .form-control__light input, .form-control__light select {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    line-height: 1.5;
     background-color: #ffffff;
-    color: #374151;
     border: 1px solid grey;
-    border-radius: 0.25rem;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 .form-actions {
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
+    padding: 32px;
 }
 
 .button {

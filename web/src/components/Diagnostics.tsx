@@ -1,8 +1,12 @@
-import PlusIcon from "../assets/plus.svg";
 import {useEffect, useState, useRef} from "react";
 
-import {getInsights, addInsight} from "../client";
+import Form from "./Form";
 import Modal from "./Modal";
+
+import PlusIcon from "../assets/plus.svg";
+
+import {getInsights, addInsight} from "../client";
+
 
 
 export default function Diagnostics() {
@@ -55,43 +59,51 @@ export default function Diagnostics() {
         );
     });
 
+    const newInsightForm = (
+        <Form
+            fields={[
+                {
+                    id: "created-date",
+                    label: "Diagnostic date",
+                    htmlElement: <input id="created-date" type="date" name="created_at" ref={createdAt}/>
+                }, {
+                    id: "type",
+                    label: "Fault type",
+                    htmlElement: (
+                        <select id="type" name="type" ref={insightType}>
+                            <option value="gear">Gear</option>
+                            <option value="motor">Motor</option>
+                            <option value="bearing">Bearing</option>
+                        </select>
+                    )
+                }, {
+                    id: "severity",
+                    label: "Severity",
+                    htmlElement: (
+                        <select id="severity" name="severity" ref={insightSeverity}>
+                            <option value="healthy">Healthy</option>
+                            <option value="critical">Critical</option>
+                            <option value="alarm">Alarm</option>
+                        </select>
+                    )
+                }
+            ]}
+            actions={[
+                <button type="button" className="button" onClick={closeAddInsightModal} key="cancel">
+                    Cancel
+                </button>,
+                <button type="button" className="button" onClick={handleSendingNewInsight} key="save">
+                    Save
+                </button>
+            ]}
+        />
+    );
+
     return (
         <>
             <Modal
                 header="Add new diagnostic"
-                content={
-                    <form>
-                        <div className="form-inputs">
-                            <div className="form-control form-control__light">
-                                <label htmlFor="created-date">Diagnostic date</label>
-                                <input id="created-date" type="date" name="created_at" ref={createdAt}/>
-                            </div>
-
-                            <div className="form-control form-control__light">
-                                <label htmlFor="type">Fault type</label>
-                                <select id="type" name="type" ref={insightType}>
-                                    <option value="gear">Gear</option>
-                                    <option value="motor">Motor</option>
-                                    <option value="bearing">Bearing</option>
-                                </select>
-                            </div>
-
-                            <div className="form-control form-control__light">
-                                <label htmlFor="severity">Severity</label>
-                                <select id="severity" name="severity" ref={insightSeverity}>
-                                    <option value="healthy">Healthy</option>
-                                    <option value="critical">Critical</option>
-                                    <option value="alarm">Alarm</option>
-                                </select>
-                            </div>
-
-                            <div className="form-actions">
-                                <button type="button" className="button" onClick={closeAddInsightModal}>Cancel</button>
-                                <button type="button" className="button" onClick={handleSendingNewInsight}>Save</button>
-                            </div>
-                        </div>
-                    </form>
-                }
+                content={newInsightForm}
                 isActive={isInsightModalOpen}
             />
 
