@@ -1,5 +1,6 @@
 import { useRef } from "react";
 
+import Button from "./Button";
 import Form from "./Form";
 
 import { login } from "../client";
@@ -33,7 +34,7 @@ export default function Login({ onSuccessLogin }) {
                 }
             ]}
             actions={[
-                <button type="button" className="button" onClick={handleFormSubmit} key="login">Login </button>
+                <Button onClick={handleFormSubmit}>Login</Button>,
             ]}
         />
     );

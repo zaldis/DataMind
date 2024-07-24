@@ -1,5 +1,6 @@
 import {useEffect, useState, useRef} from "react";
 
+import Button from "./Button";
 import Form from "./Form";
 import Modal from "./Modal";
 
@@ -89,12 +90,12 @@ export default function Diagnostics() {
                 }
             ]}
             actions={[
-                <button type="button" className="button" onClick={closeAddInsightModal} key="cancel">
+                <Button onClick={closeAddInsightModal} key="cancel">
                     Cancel
-                </button>,
-                <button type="button" className="button" onClick={handleSendingNewInsight} key="save">
+                </Button>,
+                <Button onClick={handleSendingNewInsight} key="save">
                     Save
-                </button>
+                </Button>
             ]}
         />
     );
@@ -110,12 +111,13 @@ export default function Diagnostics() {
             {/* TODO Update with custom button component instead of inline CSS */}
             <div style={{marginBottom: "16px"}} className="space-between">
                 <h2>Diagnostics</h2>
-                <button className="button purple" onClick={openAddInsightModal}>
-                    <div style={{display: "flex"}}>
-                        <img src={PlusIcon} alt="plus sign"/>
-                        <div style={{marginLeft: "10px"}}>Add new</div>
-                    </div>
-                </button>
+                <Button
+                    icon={PlusIcon}
+                    className="purple"
+                    onClick={openAddInsightModal}
+                >
+                    Add new
+                </Button>
             </div>
 
             <div className="panel">
