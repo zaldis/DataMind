@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 import Header from './components/Header';
 import HorizontalMenu from "./components/HorizontalMenu";
@@ -6,6 +6,7 @@ import ProfileCircle from "./components/ProfileCircle";
 import MenuLayout from "./components/MenuLayout.tsx";
 import Login from "./components/Login";
 import Diagnostics from "./components/Diagnostics";
+import InsightsGraph from "./components/InsightsGraph.tsx";
 
 import industryWindowIcon from "./assets/industry-window.svg";
 import circleInfoIcon from "./assets/circle-info.svg";
@@ -13,35 +14,35 @@ import bellIcon from "./assets/bell.svg";
 import fileIcon from "./assets/file.svg";
 import gearIcon from "./assets/gear.svg";
 import arrowRightFromBracket from "./assets/arrow-right-from-bracket.svg";
-import InsightsGraph from "./components/InsightsGraph.tsx";
 
 
 function App() {
-    const [userData, setUserData] = useState({
-        username: '',
-        token: ''
-    });
+    const [username, setUsername] = useState('');
 
-    function handleOnSuccessLogin(username, token) {
-        setUserData(prevState => ({
-            ...prevState,
-            username: username,
-            token: token
-        }));
+    useEffect(() => {
+        const savedUsername = localStorage.getItem('username') || '';
+
+        if (!username) {
+            handleOnSuccessLogin(savedUsername);
+        }
+    }, [username]);
+
+    function handleOnSuccessLogin(username) {
+        setUsername(username);
+        localStorage.setItem('username', username);
     }
 
     function handleLogOut() {
-        setUserData({
-            username: '',
-            token: ''
-        });
+        setUsername('');
+        localStorage.clear();
     }
 
-    const firstName = userData.username.split('.')[0] || '';
-    const lastName = userData.username.split('.')[1] || '';
+    const firstName = username.split('.')[0] || '';
+    const lastName = username.split('.')[1] || '';
 
     let menu = undefined;
-    if (userData.token) {
+    let content = <Login onSuccessLogin={handleOnSuccessLogin} />;
+    if (username) {
         menu = (
             <HorizontalMenu
                 items={[
@@ -74,10 +75,6 @@ function App() {
                 ]}
             />
         );
-    }
-
-    let content = <Login onSuccessLogin={handleOnSuccessLogin} />;
-    if (userData.token) {
         content = (
             <>
                 <InsightsGraph />
@@ -86,6 +83,7 @@ function App() {
             </>
         )
     }
+
 
     return (
         <>

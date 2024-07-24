@@ -13,6 +13,7 @@ export async function login(username: string, password: string): Promise<string>
      if (response.status === 200) {
          const json = await response.json();
          token = json["access_token"];
+         localStorage.setItem('token', token);
          return token;
      }
 
@@ -26,7 +27,7 @@ export async function getInsights(startDate: Date): Promise<object> {
     const response = await fetch(url, {
         method: "GET",
         headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${_getToken()}`
         }
     });
     if (response.status === 200) {
@@ -41,7 +42,7 @@ export async function addInsight(createdAt, insightType, insightSeverity) {
     const response = await fetch(url, {
         method: "POST",
         headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${_getToken()}`,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -54,4 +55,12 @@ export async function addInsight(createdAt, insightType, insightSeverity) {
          return await response.json();
     }
     console.log(response);
+}
+
+
+function _getToken(): string {
+    if (!token) {
+        token = localStorage.getItem('token');
+    }
+    return token
 }
