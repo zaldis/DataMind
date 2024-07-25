@@ -14,10 +14,13 @@ import bellIcon from "./assets/bell.svg";
 import fileIcon from "./assets/file.svg";
 import gearIcon from "./assets/gear.svg";
 import arrowRightFromBracket from "./assets/arrow-right-from-bracket.svg";
+import {getInsights} from "./client.tsx";
 
 
 function App() {
     const [username, setUsername] = useState('');
+    const [insights, setInsights] = useState([]);
+    const [insightsFromDate, setInsightsFromDate] = useState(new Date());
 
     useEffect(() => {
         const savedUsername = localStorage.getItem('username') || '';
@@ -25,6 +28,16 @@ function App() {
             handleOnSuccessLogin(savedUsername);
         }
     }, [username]);
+
+    useEffect(() => {
+        reloadInsights();
+    }, [insightsFromDate]);
+
+    function reloadInsights() {
+        getInsights(insightsFromDate).then((insights: []) => {
+            setInsights(insights);
+        });
+    }
 
     function handleOnSuccessLogin(username) {
         setUsername(username);
@@ -80,13 +93,17 @@ function App() {
         );
         content = (
             <>
-                <InsightsGraph />
+                <InsightsGraph
+                    insights={insights}
+                    insightsFromDate={insightsFromDate}
+                    onChangeInsightsFromDate={(newDate) => setInsightsFromDate(newDate)}
+                    reloadInsights={reloadInsights}
+                />
                 <br />
-                <Diagnostics />
+                <Diagnostics insights={insights} reloadInsights={reloadInsights} />
             </>
         )
     }
-
 
     return (
         <>

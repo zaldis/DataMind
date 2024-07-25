@@ -23,7 +23,7 @@ export async function login(username: string, password: string): Promise<string>
 
 export async function getInsights(startDate: Date): Promise<object> {
     const url = new URL(`${domain}/insight`);
-    url.search = new URLSearchParams({ from_date: "1999-07-22T07:34:02.411Z" }).toString();
+    url.search = new URLSearchParams({ from_date: startDate.toISOString() }).toString();
     const response = await fetch(url, {
         method: "GET",
         headers: {

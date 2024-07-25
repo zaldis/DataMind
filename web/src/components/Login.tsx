@@ -34,7 +34,7 @@ export default function Login({ onSuccessLogin }) {
                 }
             ]}
             actions={[
-                <Button onClick={handleFormSubmit}>Login</Button>,
+                <Button onClick={handleFormSubmit} key="login-btn">Login</Button>,
             ]}
         />
     );

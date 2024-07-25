@@ -1,4 +1,4 @@
-import {useEffect, useState, useRef} from "react";
+import {useState, useRef} from "react";
 
 import Button from "./Button";
 import Form from "./Form";
@@ -6,27 +6,16 @@ import Modal from "./Modal";
 
 import PlusIcon from "../assets/plus.svg";
 
-import {getInsights, addInsight} from "../client";
+import {addInsight} from "../client";
+import {dateToString} from "../utls";
 
 
-
-export default function Diagnostics() {
-    const [insights, setInsights] = useState([]);
+export default function Diagnostics({ insights, reloadInsights }) {
     const [isInsightModalOpen, setIsInsightModalOpen] = useState(false);
 
     const createdAt = useRef();
     const insightType = useRef();
     const insightSeverity = useRef();
-
-    useEffect(() => {
-        reloadInsights();
-    }, []);
-
-    function reloadInsights() {
-        getInsights(new Date()).then((insights: []) => {
-            setInsights(insights);
-        });
-    }
 
     function closeAddInsightModal() {
         setIsInsightModalOpen(false);
@@ -134,9 +123,7 @@ export default function Diagnostics() {
 
 
 function DiagnosticItem({createdDate, faultType, severity}) {
-    const formattedDay = createdDate.getDate().toString().padStart(2, "0");
-    const formattedMonth = (createdDate.getMonth() + 1).toString().padStart(2, "0");
-    const formattedDate = `${formattedDay}.${formattedMonth}.${createdDate.getFullYear()}`;
+    const formattedDate = dateToString(createdDate);
     return (
         <div className="panel__table-item">
             <div>{formattedDate}</div>

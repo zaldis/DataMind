@@ -1,27 +1,12 @@
-import {useEffect, useRef, useState} from "react";
+import {LineChart, Line, XAxis, Tooltip, ResponsiveContainer} from "recharts";
+import {dateToString} from "../utls.tsx";
 
-import {LineChart, Line, XAxis, YAxis, Tooltip, Customized, ResponsiveContainer} from "recharts";
 
-import {getInsights} from "../client.tsx";
-
-export default function InsightsGraph() {
-    const [insights, setInsights] = useState([]);
-    const fromDate = useRef();
-
-    useEffect(() => {
-        reloadInsights(new Date());
-    }, []);
-
+export default function InsightsGraph({ insights, insightsFromDate, onChangeInsightsFromDate }) {
     function handleFromDateChange(event) {
-        const newFromDate = new Date(fromDate.current.value);
-        reloadInsights(newFromDate);
+        onChangeInsightsFromDate(new Date(event.target.value));
     }
 
-    function reloadInsights(fromDate) {
-        getInsights(fromDate).then((insights: []) => {
-            setInsights(insights);
-        });
-    }
     const severityMap = {
         "critical": 0,
         "alarm": 1,
@@ -48,6 +33,8 @@ export default function InsightsGraph() {
         }
     });
 
+    const formattedInsightsFromDate = dateToString(insightsFromDate, '-', true);
+
     return (
         <div className="panel">
             <div className="panel__space-between-header">
@@ -56,34 +43,38 @@ export default function InsightsGraph() {
                     <div className="form-control__light">
                         <label htmlFor="from-date">From: </label>
                         <input
-                            id="from-date" name="from-date" type="date" ref={fromDate}
+                            id="from-date" name="from-date" type="date"
+                            value={formattedInsightsFromDate}
                             onChange={handleFromDateChange}
                         />
                     </div>
                 </form>
             </div>
             <div style={{ width: "100%", height: "400px" }}>
-                    <LineChart
-                        width={800} height={400}
-                        data={alignedInsights}
-                        margin={{
-                            top: 20,
-                            right: 30,
-                            left: 20,
-                            bottom: 5,
-                        }}
-                    >
-                        <Line type="monotone" dataKey="severityIndex" stroke="#8884d8" dot={<CustomDot />} />
-                        <XAxis dataKey="created_at" />
-                        <Tooltip content={<CustomTooltip />} />
-                    </LineChart>
+                <ResponsiveContainer>
+                   <LineChart
+                    width={3000} height={400}
+                    data={alignedInsights}
+                    margin={{
+                        top: 20,
+                        right: 30,
+                        left: 20,
+                        bottom: 5,
+                    }}
+                >
+                    <Line type="monotone" dataKey="severityIndex" stroke="#8884d8" dot={<CustomDot />} />
+                    <XAxis dataKey="created_at" />
+                    <Tooltip content={<CustomTooltip />} />
+                </LineChart>
+                </ResponsiveContainer>
+
             </div>
         </div>
     );
 }
 
 
-function CustomTooltip({ payload, label, active }) {
+function CustomTooltip({ payload, active }) {
     if (active && payload[0]) {
         return (
             <div>{payload[0].payload.type}</div>
@@ -92,7 +83,7 @@ function CustomTooltip({ payload, label, active }) {
     return null;
 }
 
-function CustomDot({ cx, cy, stroke, payload, value }) {
+function CustomDot({ cx, cy, payload }) {
     let dotColor = "green";
     if (payload.severity === "critical") dotColor = "red";
     if (payload.severity === "alarm") dotColor = "orange";
