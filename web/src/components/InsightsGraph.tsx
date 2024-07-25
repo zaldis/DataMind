@@ -1,5 +1,15 @@
 import {LineChart, Line, XAxis, Tooltip, ResponsiveContainer} from "recharts";
+import { styled } from "styled-components";
+
 import {dateToString} from "../utls.tsx";
+import Panel from "./Panel";
+import Form from "./Form";
+
+
+const SpaceBetweenDiv = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
 
 
 export default function InsightsGraph({ insights, insightsFromDate, onChangeInsightsFromDate }) {
@@ -36,20 +46,21 @@ export default function InsightsGraph({ insights, insightsFromDate, onChangeInsi
     const formattedInsightsFromDate = dateToString(insightsFromDate, '-', true);
 
     return (
-        <div className="panel">
-            <div className="panel__space-between-header">
+        <Panel>
+            <SpaceBetweenDiv style={{ fontWeight: "bold" }}>
                 <div>Fusion trend</div>
-                <form className="form-control">
-                    <div className="form-control__light">
-                        <label htmlFor="from-date">From: </label>
-                        <input
-                            id="from-date" name="from-date" type="date"
-                            value={formattedInsightsFromDate}
-                            onChange={handleFromDateChange}
-                        />
-                    </div>
-                </form>
-            </div>
+                <Form fields={[
+                    {
+                        id: "from-date",
+                        label: "From: ",
+                        htmlElement: (
+                            <input id="from-date" name="from-date" type="date"
+                                   value={formattedInsightsFromDate} onChange={handleFromDateChange}
+                            />
+                        )
+                    }
+                ]}/>
+            </SpaceBetweenDiv>
             <div style={{ width: "100%", height: "400px" }}>
                 <ResponsiveContainer>
                    <LineChart
@@ -67,9 +78,8 @@ export default function InsightsGraph({ insights, insightsFromDate, onChangeInsi
                     <Tooltip content={<CustomTooltip />} />
                 </LineChart>
                 </ResponsiveContainer>
-
             </div>
-        </div>
+        </Panel>
     );
 }
 

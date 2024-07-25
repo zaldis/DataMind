@@ -22,6 +22,7 @@ export default function Login({ onSuccessLogin }) {
     return (
         <Form
             formStyle="dark"
+            style={{ padding: "2rem" }}
             fields={[
                 {
                     label: 'User',

@@ -1,12 +1,13 @@
 import {useEffect, useState} from "react";
+import { styled } from "styled-components";
 
 import Header from './components/Header';
 import HorizontalMenu from "./components/HorizontalMenu";
-import ProfileCircle from "./components/ProfileCircle";
-import MenuLayout from "./components/MenuLayout.tsx";
+import MenuLayout from "./components/MenuLayout";
 import Login from "./components/Login";
 import Diagnostics from "./components/Diagnostics";
-import InsightsGraph from "./components/InsightsGraph.tsx";
+import InsightsGraph from "./components/InsightsGraph";
+import Icon from "./components/Icon";
 
 import industryWindowIcon from "./assets/industry-window.svg";
 import circleInfoIcon from "./assets/circle-info.svg";
@@ -15,6 +16,11 @@ import fileIcon from "./assets/file.svg";
 import gearIcon from "./assets/gear.svg";
 import arrowRightFromBracket from "./assets/arrow-right-from-bracket.svg";
 import {getInsights} from "./client.tsx";
+
+
+const CenteredDiv = styled.div`
+    text-align: center;
+`;
 
 
 function App() {
@@ -63,30 +69,29 @@ function App() {
             <HorizontalMenu
                 items={[
                     {
-                        element: <img className="icon-img" src={industryWindowIcon} alt="industry window icon"/>,
+                        element: <Icon src={industryWindowIcon} alt="industry window icon"/>,
                         isActive: true,
                     }, {
-                        element: <img className="icon-img" src={circleInfoIcon} alt="circle info icon"/>,
-                        isActive: false,
+                        element: <Icon src={circleInfoIcon} alt="circle info icon"/>,
                     }, {
-                        element: <img className="icon-img" src={bellIcon} alt="bell icon"/>,
-                        isActive: false,
+                        element: <Icon src={bellIcon} alt="bell icon"/>,
                     }, {
-                        element: <img className="icon-img" src={fileIcon} alt="file icon"/>,
-                        isActive: false,
+                        element: <Icon src={fileIcon} alt="file icon"/>,
                     }, {
-                        element: <img className="icon-img" src={gearIcon} alt="settigns"/>,
-                        isActive: false,
+                        element: <Icon src={gearIcon} alt="settigns"/>,
                     }
                 ]}
                 bottomItems={[
                     {
-                        element: <img className="icon-img" src={arrowRightFromBracket} alt="log out"/>,
+                        element: <Icon src={arrowRightFromBracket} alt="log out"/>,
                         onClick: () => handleLogOut(),
-                        isRadius: false
                     }, {
-                        element: <ProfileCircle firstName={firstName} lastName={lastName} />,
-                        isRadius: true
+                        element: (
+                            <CenteredDiv style={{ textTransform: "uppercase" }}>
+                                {firstName[0]}{lastName[0]}
+                            </CenteredDiv>
+                        ),
+                        isCircle: true
                     }
                 ]}
             />

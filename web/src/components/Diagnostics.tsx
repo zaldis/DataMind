@@ -1,4 +1,5 @@
 import {useState, useRef} from "react";
+import { styled } from "styled-components";
 
 import Button from "./Button";
 import Form from "./Form";
@@ -8,6 +9,13 @@ import PlusIcon from "../assets/plus.svg";
 
 import {addInsight} from "../client";
 import {dateToString} from "../utls";
+import Table from "./Table.tsx";
+
+
+const SpaceBetweenDiv = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
 
 
 export default function Diagnostics({ insights, reloadInsights }) {
@@ -38,19 +46,19 @@ export default function Diagnostics({ insights, reloadInsights }) {
         });
     }
 
-    const diagnosticItems = insights.map(insight => {
+    const diagnosticRows = insights.map(insight => {
         return (
-           <DiagnosticItem
-                key={insight.id}
-                createdDate={new Date(insight.created_at)}
-                faultType={insight.type}
-                severity={insight.severity}
-            />
+            [
+                dateToString(new Date(insight.created_at)),
+                insight.type,
+                insight.severity
+            ]
         );
     });
 
     const newInsightForm = (
         <Form
+            style={{ padding: "2rem" }}
             fields={[
                 {
                     id: "created-date",
@@ -82,7 +90,7 @@ export default function Diagnostics({ insights, reloadInsights }) {
                 <Button onClick={closeAddInsightModal} key="cancel">
                     Cancel
                 </Button>,
-                <Button onClick={handleSendingNewInsight} key="save">
+                <Button onClick={handleSendingNewInsight} style="dark" key="save">
                     Save
                 </Button>
             ]}
@@ -97,38 +105,25 @@ export default function Diagnostics({ insights, reloadInsights }) {
                 isActive={isInsightModalOpen}
             />
 
-            {/* TODO Update with custom button component instead of inline CSS */}
-            <div style={{marginBottom: "16px"}} className="space-between">
+            <SpaceBetweenDiv style={{marginBottom: "16px"}}>
                 <h2>Diagnostics</h2>
                 <Button
                     icon={PlusIcon}
-                    className="purple"
+                    style="dark"
                     onClick={openAddInsightModal}
                 >
                     Add new
                 </Button>
-            </div>
+            </SpaceBetweenDiv>
 
-            <div className="panel">
-                <div className="panel__tabel-header">
-                    <div>Diagnostic date</div>
-                    <div>Fault type</div>
-                    <div>Severity</div>
-                </div>
-                { diagnosticItems }
-            </div>
+            <Table
+                headers={[
+                    "Diagnostic date",
+                    "Fault type",
+                    "Severity"
+                ]}
+                rows={diagnosticRows}
+            />
         </>
-    );
-}
-
-
-function DiagnosticItem({createdDate, faultType, severity}) {
-    const formattedDate = dateToString(createdDate);
-    return (
-        <div className="panel__table-item">
-            <div>{formattedDate}</div>
-            <div>{faultType}</div>
-            <div>{severity}</div>
-        </div>
     );
 }

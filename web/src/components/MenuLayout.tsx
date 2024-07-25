@@ -1,15 +1,29 @@
+import { styled } from "styled-components";
+
+
+const MenuLayoutBase = styled.div`
+    display: flex;
+`;
+
+const MenuLayoutMenuSection = styled.div``;
+
+const MenuLayoutContentSection = styled.div`
+    width: 100%;
+`;
+
+
 export default function MenuLayout({header, menu, body}) {
     return (
-        <div className="menu-layout">
-            <div className="menu-layout__menu">
+        <MenuLayoutBase>
+            <MenuLayoutMenuSection>
                 { menu }
-            </div>
-            <div className="menu-layout__content">
+            </MenuLayoutMenuSection>
+            <MenuLayoutContentSection>
                 { header }
-                <div className="container">
+                <div style={{ margin: "30px" }}>
                     { body }
                 </div>
-            </div>
-        </div>
+            </MenuLayoutContentSection>
+        </MenuLayoutBase>
     );
 }
