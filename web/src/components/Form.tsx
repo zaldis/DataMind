@@ -27,13 +27,14 @@ const FormActions = styled.div`
 
 const FormControl = styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: ${({$orientation}) => $orientation === 'horizontal' ? 'row': 'column'};
+    align-items:  ${({$orientation}) => $orientation === 'horizontal' ? 'center': 'start'};
     gap: 0.5rem;
-    margin-bottom: 1.5rem;
+    margin: ${({$orientation}) => $orientation === 'horizontal' ? '0': '0 0 1.5rem 0'};
     
     & label {
         display: block;
-        margin-bottom: 0.5rem;
+        margin-bottom: ${({$orientation}) => $orientation === 'horizontal' ? '0' : '0.5rem'};
         font-size: 0.75rem;
         font-weight: 700;
         letter-spacing: 0.1em;
@@ -61,7 +62,7 @@ const FormControl = styled.div`
 export default function Form({ formStyle, actions, fields, style }) {
     const controls = fields.map(field => {
         return (
-            <FormControl $style={formStyle} key={field.id}>
+            <FormControl $style={formStyle} $orientation={field.orientation} key={field.id}>
                 <label htmlFor={field.id}>{field.label}</label>
                 { field.htmlElement }
             </FormControl>

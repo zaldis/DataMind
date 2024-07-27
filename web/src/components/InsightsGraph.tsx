@@ -1,14 +1,23 @@
-import {LineChart, Line, XAxis, Tooltip, ResponsiveContainer} from "recharts";
+import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { styled } from "styled-components";
 
-import {dateToString} from "../utls.tsx";
 import Panel from "./Panel";
 import Form from "./Form";
+
+import ChartLineIcon from "../assets/chart-line.svg";
+
+import { dateToString } from "../utls.tsx";
+import Icon from "./Icon.tsx";
 
 
 const SpaceBetweenDiv = styled.div`
     display: flex;
     justify-content: space-between;
+`;
+
+const CenteredRowDiv = styled.div`
+    display: flex;
+    align-items: center;
 `;
 
 
@@ -47,22 +56,28 @@ export default function InsightsGraph({ insights, insightsFromDate, onChangeInsi
 
     return (
         <Panel>
-            <SpaceBetweenDiv style={{ fontWeight: "bold" }}>
-                <div>Fusion trend</div>
-                <Form fields={[
+            <SpaceBetweenDiv style={{ fontWeight: "bold", margin: "10px 0 10px 0" }}>
+                <CenteredRowDiv>
+                    <Icon src={ChartLineIcon} alt="chart-line" /> <div style={{ marginLeft: "10px" }}>Fusion trend</div>
+                </CenteredRowDiv>
+
+                <CenteredRowDiv>
+                    <Form fields={[
                     {
                         id: "from-date",
                         label: "From: ",
+                        orientation: "horizontal",
                         htmlElement: (
                             <input id="from-date" name="from-date" type="date"
                                    value={formattedInsightsFromDate} onChange={handleFromDateChange}
                             />
                         )
                     }
-                ]}/>
+                    ]}/>
+                </CenteredRowDiv>
             </SpaceBetweenDiv>
             <div style={{ width: "100%", height: "400px" }}>
-                <ResponsiveContainer>
+                <ResponsiveContainer style={{ backgroundColor: "white", borderRadius: "10px" }}>
                    <LineChart
                     width={3000} height={400}
                     data={alignedInsights}
@@ -84,7 +99,7 @@ export default function InsightsGraph({ insights, insightsFromDate, onChangeInsi
 }
 
 
-function CustomTooltip({ payload, active }) {
+function CustomTooltip({ payload, label, active }) {
     if (active && payload[0]) {
         return (
             <div>{payload[0].payload.type}</div>
@@ -93,7 +108,7 @@ function CustomTooltip({ payload, active }) {
     return null;
 }
 
-function CustomDot({ cx, cy, payload }) {
+function CustomDot({ cx, cy, stroke, payload, value }) {
     let dotColor = "green";
     if (payload.severity === "critical") dotColor = "red";
     if (payload.severity === "alarm") dotColor = "orange";

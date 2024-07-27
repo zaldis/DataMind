@@ -105,7 +105,7 @@ export default function Diagnostics({ insights, reloadInsights }) {
                 isActive={isInsightModalOpen}
             />
 
-            <SpaceBetweenDiv style={{marginBottom: "16px"}}>
+            <SpaceBetweenDiv style={{marginBottom: "16px", display: "flex", alignItems: "center"}}>
                 <h2>Diagnostics</h2>
                 <Button
                     icon={PlusIcon}

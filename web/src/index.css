@@ -1,5 +1,6 @@
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
 }
 
 html {
@@ -14,6 +15,7 @@ body {
 
 h2 {
     margin: 0;
+    font-weight: 500;
 }
 
 #root {

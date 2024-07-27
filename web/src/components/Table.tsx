@@ -13,6 +13,7 @@ const TableHeaders = styled.div`
 
 const TableHeadersItem = styled.div`
     flex: 1;
+    color: #55687d;
 `;
 
 const TableColumns = styled.div`

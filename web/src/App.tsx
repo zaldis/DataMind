@@ -24,16 +24,11 @@ const CenteredDiv = styled.div`
 
 
 function App() {
-    const [username, setUsername] = useState('');
+    const savedUsername = localStorage.getItem("username") || '';
+
+    const [username, setUsername] = useState(savedUsername);
     const [insights, setInsights] = useState([]);
     const [insightsFromDate, setInsightsFromDate] = useState(new Date());
-
-    useEffect(() => {
-        const savedUsername = localStorage.getItem('username') || '';
-        if (!username) {
-            handleOnSuccessLogin(savedUsername);
-        }
-    }, [username]);
 
     useEffect(() => {
         reloadInsights();
@@ -102,7 +97,6 @@ function App() {
                     insights={insights}
                     insightsFromDate={insightsFromDate}
                     onChangeInsightsFromDate={(newDate) => setInsightsFromDate(newDate)}
-                    reloadInsights={reloadInsights}
                 />
                 <br />
                 <Diagnostics insights={insights} reloadInsights={reloadInsights} />
