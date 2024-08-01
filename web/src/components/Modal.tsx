@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 
 
-const BaseModal = styled.div`
+const StyledModal = styled.div`
     display: ${({$isActive}) => $isActive ? "block" : "none"};
     position: fixed;
     z-index: 1;
@@ -29,13 +29,22 @@ const ModalContentHeader = styled.div`
 `;
 
 
-export default function Modal({ header, content, isActive= false }) {
+interface ModalProps {
+    isActive: boolean;
+    header: React.ReactElement;
+    content: React.ReactElement;
+}
+
+
+const Modal: React.FC<ModalProps> = ({ header, content, isActive= false }) => {
     return (
-        <BaseModal $isActive={isActive}>
+        <StyledModal $isActive={isActive}>
             <ModalContent>
                 <ModalContentHeader>{ header }</ModalContentHeader>
                 <div>{ content }</div>
             </ModalContent>
-        </BaseModal>
+        </StyledModal>
     );
 }
+
+export default Modal;

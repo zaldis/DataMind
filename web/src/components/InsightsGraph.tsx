@@ -99,7 +99,7 @@ export default function InsightsGraph({ insights, insightsFromDate, onChangeInsi
 }
 
 
-function CustomTooltip({ payload, label, active }) {
+function CustomTooltip({ payload, active }) {
     if (active && payload[0]) {
         return (
             <div>{payload[0].payload.type}</div>
@@ -108,7 +108,7 @@ function CustomTooltip({ payload, label, active }) {
     return null;
 }
 
-function CustomDot({ cx, cy, stroke, payload, value }) {
+function CustomDot({ cx, cy, payload }) {
     let dotColor = "green";
     if (payload.severity === "critical") dotColor = "red";
     if (payload.severity === "alarm") dotColor = "orange";

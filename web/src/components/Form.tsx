@@ -1,15 +1,17 @@
 import { styled } from "styled-components";
+import { ReactElement } from "react";
+
 
 const StyledForm = styled.form`
     border-radius: 10px;
     background: ${
-        ({$style}) => $style === 'dark' ? "linear-gradient(180deg, #5d5db0 0%, #2f2f66 100%)" : "none"
+        ({$theme}) => $theme === 'dark' ? "linear-gradient(180deg, #5d5db0 0%, #2f2f66 100%)" : "none"
     };
     box-shadow: ${
-        ({$style}) => $style === 'dark' ? "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)" : "none"
+        ({$theme}) => $theme === 'dark' ? "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)" : "none"
     };
     color: ${
-        ({$style}) => $style === 'dark' ? "white" : "black"
+        ({$theme}) => $theme === 'dark' ? "white" : "black"
     };
 `;
 
@@ -39,7 +41,7 @@ const FormControl = styled.div`
         font-weight: 700;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        color: ${({$style}) => $style === "dark" ? "#c2d6ff" : "#879abf"};
+        color: ${({$theme}) => $theme === "dark" ? "#c2d6ff" : "#879abf"};
     }
     
     & input, & select {
@@ -49,20 +51,34 @@ const FormControl = styled.div`
         color: #374151;
         border-radius: 0.25rem;
         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        background-color: ${({$style}) => {
-            return ($style === "dark") ? "#d1d5db" : "#ffffff";
+        background-color: ${({$theme}) => {
+            return ($theme === "dark") ? "#d1d5db" : "#ffffff";
         }};
-        border: ${({$style}) => {
-            return ($style === "dark") ? "1px solid transparent" : "1px solid grey";
+        border: ${({$theme}) => {
+            return ($theme === "dark") ? "1px solid transparent" : "1px solid grey";
         }};
     }
 `;
 
 
-export default function Form({ formStyle, actions, fields, style }) {
+interface FormProps {
+    theme?: "dark" | "light";
+    actions: ReactElement;
+    fields: {
+        id: string;
+        label: string;
+        orientation?: "horizontal" | "vertical";
+        htmlElement: React.ReactElement;
+    }[];
+    style: React.CSSProperties;
+}
+
+
+const Form: React.FC<FormProps> = ({ theme, actions, fields, style }) => {
+    if (!theme) theme = "light";
     const controls = fields.map(field => {
         return (
-            <FormControl $style={formStyle} $orientation={field.orientation} key={field.id}>
+            <FormControl $theme={theme} $orientation={field.orientation} key={field.id}>
                 <label htmlFor={field.id}>{field.label}</label>
                 { field.htmlElement }
             </FormControl>
@@ -70,7 +86,7 @@ export default function Form({ formStyle, actions, fields, style }) {
     })
 
     return (
-        <StyledForm $style={formStyle} style={style}>
+        <StyledForm $theme={theme} style={style}>
             <FormInputs>
                 {controls}
             </FormInputs>
@@ -80,3 +96,5 @@ export default function Form({ formStyle, actions, fields, style }) {
         </StyledForm>
     );
 }
+
+export default Form;

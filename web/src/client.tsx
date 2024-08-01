@@ -37,7 +37,7 @@ export async function getInsights(startDate: Date): Promise<object> {
 }
 
 
-export async function addInsight(createdAt, insightType, insightSeverity) {
+export async function addInsight(createdAt: Date, insightType: string, insightSeverity: string) {
     const url = new URL(`${domain}/insight`);
     const response = await fetch(url, {
         method: "POST",

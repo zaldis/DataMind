@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState, useCallback } from "react";
 import { styled } from "styled-components";
 
 import Header from './components/Header';
@@ -23,22 +23,22 @@ const CenteredDiv = styled.div`
 `;
 
 
-function App() {
+const App: React.FC = () => {
     const savedUsername = localStorage.getItem("username") || '';
 
     const [username, setUsername] = useState(savedUsername);
     const [insights, setInsights] = useState([]);
     const [insightsFromDate, setInsightsFromDate] = useState(new Date());
 
-    useEffect(() => {
-        reloadInsights();
-    }, [insightsFromDate]);
-
-    function reloadInsights() {
+    const reloadInsights = useCallback(() => {
         getInsights(insightsFromDate).then((insights: []) => {
             setInsights(insights);
         });
-    }
+    }, [insightsFromDate]);
+
+    useEffect(() => {
+        reloadInsights();
+    }, [reloadInsights]);
 
     function handleOnSuccessLogin(username) {
         setUsername(username);

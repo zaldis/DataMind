@@ -17,10 +17,12 @@ const BaseHeader = styled.header`
 `;
 
 
-export default function Header() {
+const Header: React.FC = () => {
     return (
         <BaseHeader>
             <img src={headerLogo} alt="header" />
         </BaseHeader>
     )
 }
+
+export default Header;

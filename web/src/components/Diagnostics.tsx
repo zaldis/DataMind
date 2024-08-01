@@ -1,4 +1,4 @@
-import {useState, useRef} from "react";
+import { useState, useRef } from "react";
 import { styled } from "styled-components";
 
 import Button from "./Button";
@@ -18,28 +18,38 @@ const SpaceBetweenDiv = styled.div`
 `;
 
 
-export default function Diagnostics({ insights, reloadInsights }) {
-    const [isInsightModalOpen, setIsInsightModalOpen] = useState(false);
+interface DiagnosticProps {
+    insights: {
+        type: string;
+        severity: string;
+        created_at: Date;
+    }[];
+    reloadInsights: () => void;
+}
 
-    const createdAt = useRef();
-    const insightType = useRef();
-    const insightSeverity = useRef();
 
-    function closeAddInsightModal() {
+const Diagnostics: React.FC<DiagnosticProps> = ({ insights, reloadInsights }) => {
+    const [isInsightModalOpen, setIsInsightModalOpen] = useState<boolean>(false);
+
+    const createdAt = useRef<HTMLInputElement | null>(null);
+    const insightType = useRef<HTMLSelectElement | null>(null);
+    const insightSeverity = useRef<HTMLSelectElement | null>(null);
+
+    function closeAddInsightModal(): void {
         setIsInsightModalOpen(false);
     }
 
-    function openAddInsightModal() {
+    function openAddInsightModal(): void {
         setIsInsightModalOpen(true);
     }
 
-    function handleSendingNewInsight() {
-        const createdAtValue = createdAt.current.value;
-        const insightTypeValue = insightType.current.value;
-        const insightSeverityValue = insightSeverity.current.value;
+    function handleSendingNewInsight(): void {
+        const createdAtValue = createdAt.current!.value;
+        const insightTypeValue = insightType.current!.value;
+        const insightSeverityValue = insightSeverity.current!.value;
 
         addInsight(
-            createdAtValue, insightTypeValue, insightSeverityValue
+            new Date(createdAtValue), insightTypeValue, insightSeverityValue
         ).then(() => {
              setIsInsightModalOpen(false);
              reloadInsights();
@@ -86,14 +96,16 @@ export default function Diagnostics({ insights, reloadInsights }) {
                     )
                 }
             ]}
-            actions={[
-                <Button onClick={closeAddInsightModal} key="cancel">
-                    Cancel
-                </Button>,
-                <Button onClick={handleSendingNewInsight} style="dark" key="save">
-                    Save
-                </Button>
-            ]}
+            actions={
+                <>
+                    <Button onClick={closeAddInsightModal} key="cancel">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleSendingNewInsight} theme="dark" key="save">
+                        Save
+                    </Button>
+                </>
+            }
         />
     );
 
@@ -109,7 +121,7 @@ export default function Diagnostics({ insights, reloadInsights }) {
                 <h2>Diagnostics</h2>
                 <Button
                     icon={PlusIcon}
-                    style="dark"
+                    theme="dark"
                     onClick={openAddInsightModal}
                 >
                     Add new
@@ -127,3 +139,6 @@ export default function Diagnostics({ insights, reloadInsights }) {
         </>
     );
 }
+
+
+export default Diagnostics;

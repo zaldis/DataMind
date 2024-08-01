@@ -50,7 +50,20 @@ const MenuItem = styled.div`
 `;
 
 
-export default function HorizontalMenu({ items, bottomItems }) {
+interface HorizontalMenuProps {
+    items: {
+        isActive?: boolean;
+        element: React.ReactElement;
+    }[];
+    bottomItems: {
+        isCircle?: boolean;
+        onClick?: () => void;
+        element: React.ReactElement;
+    }[];
+}
+
+
+const HorizontalMenu: React.FC<HorizontalMenuProps> = ({ items, bottomItems }) => {
     const nodes = items.map((item, index) => {
         return (
             <MenuItem key={index} $isActive={item.isActive}>
@@ -81,3 +94,5 @@ export default function HorizontalMenu({ items, bottomItems }) {
         </Menu>
     );
 }
+
+export default HorizontalMenu;

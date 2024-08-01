@@ -12,7 +12,14 @@ const MenuLayoutContentSection = styled.div`
 `;
 
 
-export default function MenuLayout({header, menu, body}) {
+interface MenuLayoutProps {
+    header: React.ReactElement;
+    menu: React.ReactElement;
+    body: React.ReactElement;
+}
+
+
+const MenuLayout: React.FC<MenuLayoutProps> = ({header, menu, body}) => {
     return (
         <MenuLayoutBase>
             <MenuLayoutMenuSection>
@@ -27,3 +34,5 @@ export default function MenuLayout({header, menu, body}) {
         </MenuLayoutBase>
     );
 }
+
+export default MenuLayout;

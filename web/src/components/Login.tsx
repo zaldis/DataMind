@@ -7,12 +7,12 @@ import { login } from "../client";
 
 
 export default function Login({ onSuccessLogin }) {
-    const user = useRef();
-    const password = useRef();
+    const user = useRef<HTMLInputElement | null>(null);
+    const password = useRef<HTMLInputElement | null>(null);
 
-    function handleFormSubmit(event) {
-        const enteredUser = user.current.value;
-        const enteredPassword = password.current.value;
+    function handleFormSubmit() {
+        const enteredUser = user.current!.value;
+        const enteredPassword = password.current!.value;
 
         login(enteredUser, enteredPassword).then((token: string) => {
             onSuccessLogin(enteredUser, token);
@@ -21,7 +21,7 @@ export default function Login({ onSuccessLogin }) {
 
     return (
         <Form
-            formStyle="dark"
+            theme="dark"
             style={{ padding: "2rem" }}
             fields={[
                 {
@@ -34,9 +34,11 @@ export default function Login({ onSuccessLogin }) {
                     htmlElement: <input id="password" type="password" name="password" ref={password}/>
                 }
             ]}
-            actions={[
-                <Button onClick={handleFormSubmit} key="login-btn">Login</Button>,
-            ]}
+            actions={
+                <>
+                    <Button onClick={handleFormSubmit}>Login</Button>
+                </>
+            }
         />
     );
 }

@@ -9,12 +9,12 @@ const StyledButton = styled.button`
     text-transform: uppercase;
     border-radius: 0.25rem;
     cursor: pointer; 
-    color: ${({$style}) => {
-        if ($style === "dark") return "white";
+    color: ${({$theme}) => {
+        if ($theme === "dark") return "white";
         return "black";
     }};
-    background-color: ${({$style}) => {
-        if ($style === "dark") return "#7071f3";
+    background-color: ${({$theme}) => {
+        if ($theme === "dark") return "#7071f3";
         return "#ffffff";
     }};
 `;
@@ -25,16 +25,25 @@ const RowFlex = styled.div`
 `;
 
 
-export default function Button({ onClick, icon, style, className, children }) {
+interface ButtonProps {
+    onClick: () => void;
+    theme?: "dark" | "light";
+    icon?: object;
+    className?: string;
+}
+
+
+const Button: React.FC<ButtonProps> = ({ onClick, icon, theme, className, children }) => {
+    if (!theme) theme = "light";
     if (!icon)
         return (
-            <StyledButton type="button" $style={style} onClick={onClick}>
+            <StyledButton type="button" $theme={theme} className={className} onClick={onClick}>
                 {children}
             </StyledButton>
         );
 
     return (
-        <StyledButton $style={style} onClick={onClick}>
+        <StyledButton $theme={theme} className={className} onClick={onClick}>
             <RowFlex>
                 <Icon src={icon} alt="plus sign"/>
                 <div style={{marginLeft: "10px"}}>{children}</div>
@@ -42,3 +51,5 @@ export default function Button({ onClick, icon, style, className, children }) {
         </StyledButton>
     );
 }
+
+export default Button;

@@ -30,7 +30,13 @@ const TableColumnsItem = styled.div`
 `;
 
 
-export default function Table({headers, rows}) {
+interface TableProps {
+    headers: string[];
+    rows: string[][];
+}
+
+
+const Table: React.FC<TableProps> = ({headers, rows}) => {
     const rowElements = rows.map((row, index) => <Row row={row} key={index} />)
     const headerElements = headers.map((header, index) => <TableHeadersItem key={index}>{header}</TableHeadersItem>);
     return (
@@ -46,7 +52,7 @@ export default function Table({headers, rows}) {
 }
 
 
-function Row({row}) {
+const Row: React.FC<{row: string[]}> = ({row}) => {
     const columns = row.map((column, index) => <TableColumnsItem key={index}>{column}</TableColumnsItem>)
     return (
         <TableColumns>
@@ -54,3 +60,6 @@ function Row({row}) {
         </TableColumns>
     );
 }
+
+
+export default Table;
